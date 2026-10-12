@@ -4,3 +4,9 @@ target/
 test-output/
 bin/
 *.class
+
+.metadata/
+target/
+test-output/
+bin/
+*.class
