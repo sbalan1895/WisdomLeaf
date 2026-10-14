@@ -99,5 +99,19 @@ public void performGhostLogin() {
 		pomGDashB.profileInfo();	
 	
 	}
+	
+	@Test(priority= 5)
+	public void menuButton() {
+		
+		pomGDashB.selectJob();
+		pomGDashB.validateJobsF();
+		pomGDashB.getJobList();
+		
+	}
+	
+	@Test(priority= 6)
+	public void selectAllJobs() {
+		pomGDashB.selectAllJob();
+	}
 
 }

@@ -18,7 +18,7 @@ public class POM_SignInCand extends BaseCandidateLogin{
 	WebDriverWait waits;
 	Actions actns;
 	
-	public POM_SignInCand() {
+	public POM_SignInCand(WebDriver driver) {
 		
 		this.driver= driver;
 		this.waits= new WebDriverWait(driver, Duration.ofSeconds(20));
