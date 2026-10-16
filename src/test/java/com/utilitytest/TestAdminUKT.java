@@ -105,13 +105,26 @@ public void performGhostLogin() {
 		
 		pomGDashB.selectJob();
 		pomGDashB.validateJobsF();
-		pomGDashB.getJobList();
+		pomGDashB.getLiveJobList();
 		
 	}
 	
 	@Test(priority= 6)
 	public void selectAllJobs() {
+		
 		pomGDashB.selectAllJob();
+		pomGDashB.getAllJobList();
+	
 	}
+	
+	@Test(priority= 7)
+	public void selectClosedJobs() {
+		
+		pomGDashB.selectClosedJob();
+		pomGDashB.getClosedJobList();
+	
+	}
+	
+	
 
 }
