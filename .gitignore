@@ -1,8 +1,11 @@
 # Eclipse workspace metadata
 .metadata/
+.settings/
 
-# Maven generated files
+# Maven and compiled output
 target/
+bin/
+*.class
 
 # TestNG reports
 test-output/
@@ -10,7 +13,3 @@ test-output/
 # Operating system files
 .DS_Store
 Thumbs.db
-
-.metadata/
-target/
-test-output/
