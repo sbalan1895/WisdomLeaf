@@ -1,0 +1,16 @@
+# Eclipse workspace metadata
+.metadata/
+
+# Maven generated files
+target/
+
+# TestNG reports
+test-output/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+.metadata/
+target/
+test-output/
