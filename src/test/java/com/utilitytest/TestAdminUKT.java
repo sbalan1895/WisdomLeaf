@@ -1,5 +1,7 @@
 package com.utilitytest;
 
+import java.util.List;
+
 import org.jspecify.annotations.NonNull;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -13,16 +15,17 @@ import org.testng.annotations.Test;
 import com.baseclass.Base_SiteAdmin;
 import com.pomutkadmin.POM_Admin;
 import com.pomutkadmin.POM_GhostDashboard;
+import com.pomutkadmin.POM_GhostDashboard2;
 import com.pomutkadmin.POM_GhostLogin;
 
 public class TestAdminUKT extends Base_SiteAdmin {
 
 	POM_GhostLogin pomGhost;
-	POM_GhostDashboard pomGDashB;
+	POM_GhostDashboard2 pomGDashB;
 
 	@Test(priority= 1)
 	public void admLogN() {
-		
+
 		POM_Admin pomAdmin= new POM_Admin(driver);	
 		pomAdmin.verifyAdminTxt();
 		pomAdmin.enterUserN("admin@talenetic.com");
@@ -30,7 +33,7 @@ public class TestAdminUKT extends Base_SiteAdmin {
 		pomAdmin.clkAdmLogN();
 
 		System.out.println("Successfully logged in to UKTeach-SiteAdmin");
-		
+
 
 	}	
 
@@ -43,88 +46,79 @@ public class TestAdminUKT extends Base_SiteAdmin {
 		Assert.assertTrue(true, "SiteAdmin navigated to Dashboard page");
 
 	}
-	
+
 	@Test (priority= 3)
-public void performGhostLogin() {
-		
+	public void performGhostLogin() {
+
 		pomGhost= new POM_GhostLogin();
-		
+
 		pomGhost.selectSchool();
 		pomGhost.clkSearch("SB Educational Institute");
-//		System.out.println("-----Entered school-----");
+		//		System.out.println("-----Entered school-----");
 		Reporter.log("--Entered school--", true);
-		
+
 		pomGhost.idSchool();
-//		System.out.println("----Identifed school----");
+		//		System.out.println("----Identifed school----");
 		Reporter.log("----Identifed school----", true);
-		
+
 		pomGhost.clickHereBtn();
-//		System.out.println("----Button Click Here performed----");
+		//		System.out.println("----Button Click Here performed----");
 		Reporter.log("----Button Click Here performed----", true);
-		
+
 		pomGhost.idGhostPopup();
-//		System.out.println("----Ghost popup identified----");
+		//		System.out.println("----Ghost popup identified----");
 		Reporter.log("----Ghost popup identified----", true);
-		
+
 		pomGhost.getSchoolName();
-//		System.out.println("----Ghost school name validated----");
+		//		System.out.println("----Ghost school name validated----");
 		Reporter.log("----GhostSchool name validated----", true);
-		
+
 		pomGhost.clkTriggerGhost();
-//		System.out.println("----Ghost login successfully triggered----");
+		//		System.out.println("----Ghost login successfully triggered----");
 		Reporter.log("----GhostLogin successfully triggered----", true);
-		
-//		pomGhost.idExplorePopup();
+
+		//		pomGhost.idExplorePopup();
 		System.out.println("-----Explore popup identified------");
-		
-//		pomGhost.clkExploreBtn();
+
+		//		pomGhost.clkExploreBtn();
 		System.out.println("-----Explore popup button clicked------");
-		
-//		pomGhost.idLVpopup();
+
+		//		pomGhost.idLVpopup();
 		System.out.println("-----LiveVacancy popup identified------");
-		
-//		pomGhost.clkLVpopup();
+
+		//		pomGhost.clkLVpopup();
 		System.out.println("-----LiveVacancy popup button clicked------");
-		
+
 		pomGhost.getGhostU();
-//		System.out.println("----Ghost user name validated----");
+		//		System.out.println("----Ghost user name validated----");
 		Reporter.log("----Ghost user name validated----", true);
-		
+
 	}
-	
+
 	@Test(priority= 4)
 	public void regDashboard() {
-		
-		pomGDashB= new POM_GhostDashboard(driver);
+
+		pomGDashB= new POM_GhostDashboard2(driver);
 		pomGDashB.profileInfo();	
-	
+
 	}
-	
+
 	@Test(priority= 5)
 	public void menuButton() {
-		
+
 		pomGDashB.selectJob();
 		pomGDashB.validateJobsF();
-		pomGDashB.getLiveJobList();
-		
-	}
-	
-	@Test(priority= 6)
-	public void selectAllJobs() {
-		
-		pomGDashB.selectAllJob();
-		pomGDashB.getAllJobList();
-	
-	}
-	
-	@Test(priority= 7)
-	public void selectClosedJobs() {
-		
-		pomGDashB.selectClosedJob();
-		pomGDashB.getClosedJobList();
-	
-	}
-	
-	
+//		pomGDashB.getJobList();
 
+	}
+
+	@Test(priority= 6)
+	public void verifyJobStatusList() {
+		
+		for (POM_GhostDashboard2.JobStatus s : POM_GhostDashboard2.JobStatus.values()) {
+			pomGDashB.selectJobStatus(s);
+			List<String> jobs = pomGDashB.getJobList(s.label());
+			Reporter.log(s.label() + " -> " + jobs.size() + " job(s)", true);
+		}
+	}
 }

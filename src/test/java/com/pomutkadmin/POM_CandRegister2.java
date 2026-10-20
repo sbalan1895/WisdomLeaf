@@ -63,6 +63,7 @@ public class POM_CandRegister2 {
 	private By clkChB2 = By.xpath("//input[@id='updates']");
 	private final By clkRegF = By.id("createBtn");
 	private By getConfT = By.xpath("//div//p[contains(text(),'Your email')]");
+	
 	//button[contains(text(),'Register')]
 	//form//button[@type='submit'][contains(normalize-space(.),'Register')]
 
@@ -75,7 +76,6 @@ public class POM_CandRegister2 {
 		jsE.executeScript(
 				"arguments[0].scrollIntoView({block:'center', inline:'nearest', behavior:'instant'});", el);
 	}
-
 
 
 	/** Types into a field with retries; last resort is setting the value via JS. */
@@ -327,72 +327,4 @@ public void getCandRegConfirm() {
 	
 }
 
-//actn.sendKeys(Keys.ENTER);
 
-//		 scrollToCenter(cb2);
-//		 jsE.executeScript("arguments[0].focus();", cb2);        // make sure focus is on checkbox 2
-
-//		 actn.sendKeys(Keys.TAB).build().perform(); 
-//		 
-//		 try { Thread.sleep(3000); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); } 
-//		 
-//		 String focused = (String) jsE.executeScript("return document.activeElement.id;");
-//		    System.out.println("Focused element after TAB: '" + focused + "'");
-//		    Assert.assertEquals(focused, "createBtn", "TAB did not land on the Register button");
-//
-//		    actn.sendKeys(Keys.ENTER).build().perform();                    // Enter on the focused button
-//		    System.out.println("Enter pressed on Register button");
-
-
-
-/*	public void clkRegisterF1() {
-
-try { Thread.sleep(3000);} 
-catch (InterruptedException ie) { 
-	Thread.currentThread().interrupt();}
-
-@NonNull
-WebElement regck = waits.until(ExpectedConditions.elementToBeClickable(clkRegF));
-actn.moveToElement(regck).click(regck).build().perform();
-System.out.println("Register clicked");
-
-try { Thread.sleep(5000); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); } 
-System.out.println("Register clicked, URL: " + driver.getCurrentUrl());
-} */
-
-//	        Robot robot = new Robot();
-//robot.setAutoDelay(150);                                  // short pause between key events
-
-//
-//String focused = (String) jsE.executeScript("return document.activeElement.id;");
-//System.out.println("Focused element after TAB: '" + focused + "'");
-//Assert.assertEquals(focused, "createBtn", "TAB did not land on the Register button");
-
-//		try { Thread.sleep(3000); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); } 
-//		rbt.keyPress(KeyEvent.VK_TAB);
-//		rbt.keyRelease(KeyEvent.VK_TAB);
-//		
-//		try { Thread.sleep(3000); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); }
-//		
-//		rbt.keyPress(KeyEvent.VK_ENTER);
-//		rbt.keyRelease(KeyEvent.VK_ENTER);
-//		
-//		try { Thread.sleep(5000); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); } 
-////		actn.sendKeys(Keys.TAB);
-////		actn.sendKeys(Keys.ENTER);
-
-/*	public void getCandRegConfirm() {
-		try {
-			waits.until(ExpectedConditions.urlContains("RegisterConfirmation"));
-			Reporter.log("Registered OK: " + driver.getCurrentUrl(), true);
-		} catch (TimeoutException e) {
-			reportFailureState();      // prints PAGE ERROR lines and saves Screenshots/register-fail.png
-			Assert.fail("Registration not completed. URL: " + driver.getCurrentUrl());
-		}
-	} */
-
-
-
-
-
-//candauto@mailinator.com clkChB1 clkRegF
