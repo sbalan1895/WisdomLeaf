@@ -13,3 +13,9 @@ test-output/
 # Operating system files
 .DS_Store
 Thumbs.db
+target/
+test-output/
+Screenshots/
+.metadata/
+bin/
+*.class

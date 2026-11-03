@@ -21,6 +21,25 @@ import org.testng.Reporter;
 import org.testng.asserts.Assertion;
 
 public class POM_GhostDashboard {
+	
+	/** Options of the Job Status filter. The label must match the text shown in the dropdown. */
+	public enum JobStatus {
+		LIVE("Live Jobs"),
+		ALL("All Jobs"),
+		CLOSED("Closed/Expired Jobs"),
+		DRAFT("Draft Jobs"),
+		TEMPLATE("Job Templates");
+ 
+		private final String label;
+ 
+		JobStatus(String label) {
+			this.label = label;
+		}
+ 
+		public String label() {
+			return label;
+		}
+	}
 
 	WebDriver driver;
 	WebDriverWait waits;
@@ -65,24 +84,25 @@ public class POM_GhostDashboard {
 	}
 
 	private void openJobStatus() {
-
+		 
 		for (int i = 1; i <= 3; i++) {
-
+ 
 			WebElement btn = waits.until(ExpectedConditions.elementToBeClickable(jobStatusBtn));
 			scrollToCenter(btn);
 			btn.click();
 			try {
 				new WebDriverWait(driver, Duration.ofSeconds(5))
-				.until(ExpectedConditions.attributeToBe(jobStatusBtn, "aria-expanded", "true"));
+						.until(ExpectedConditions.attributeToBe(jobStatusBtn, "aria-expanded", "true"));
 				return;                                   // menu is open
 			} catch (Exception e) {
 				System.out.println("Job Status dropdown did not open, attempt " + i);
 			}
 		}
-
+ 
 		throw new AssertionError("Job Status dropdown never opened");
 	}
 
+	
 	//==================================================
 
 	public void profileInfo() {
