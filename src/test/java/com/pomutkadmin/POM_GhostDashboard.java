@@ -22,6 +22,25 @@ import org.testng.asserts.Assertion;
 
 public class POM_GhostDashboard {
 
+	/** Options of the Job Status filter. The label must match the text shown in the dropdown. */
+	public enum JobStatus {
+		LIVE("Live Jobs"),
+		ALL("All Jobs"),
+		CLOSED("Closed/Expired Jobs"),
+		DRAFT("Draft Jobs"),
+		TEMPLATE("Job Templates");
+
+		private final String label;
+
+		JobStatus(String label) {
+			this.label = label;
+		}
+
+		public String label() {
+			return label;
+		}
+	}
+
 	WebDriver driver;
 	WebDriverWait waits;
 	Actions actns;
@@ -53,8 +72,11 @@ public class POM_GhostDashboard {
 			+ "//*[contains(@class,'dropdown-menu')]//*[normalize-space(.)='All Jobs' and not(*[normalize-space(.)='All Jobs'])]");
 	private By getAllJ = By.xpath("//div[@id='ListData']/div[contains(@class,'job-list-hold')]");
 	private By selectClosedJ = By.xpath("//div[contains(@class,'select-btn')][.//span[normalize-space()='Job Status']]/div/a[contains(text(),'Closed')]");
-	
-	
+	private By selectDraftJ = By.xpath("//div[contains(@class,'select-btn')][.//span[normalize-space()='Job Status']]/div/a[contains(text(),'Draft Jobs')]");
+	private By selectTemplateJ = By.xpath("//div[contains(@class,'select-btn')][.//span[normalize-space()='Job Status']]/div/a[contains(text(),'Job Templates')]");
+
+
+
 
 	/**Instant scroll to the middle of the viewport. */
 	private void scrollToCenter(WebElement elem) {
@@ -70,7 +92,7 @@ public class POM_GhostDashboard {
 			btn.click();
 			try {
 				new WebDriverWait(driver, Duration.ofSeconds(5))
-				.until(ExpectedConditions.attributeToBe(jobStatusBtn, "aria-expanded", "true"));
+						.until(ExpectedConditions.attributeToBe(jobStatusBtn, "aria-expanded", "true"));
 				return;                                   // menu is open
 			} catch (Exception e) {
 				System.out.println("Job Status dropdown did not open, attempt " + i);
@@ -79,6 +101,7 @@ public class POM_GhostDashboard {
 
 		throw new AssertionError("Job Status dropdown never opened");
 	}
+
 
 	//==================================================
 
@@ -129,7 +152,7 @@ public class POM_GhostDashboard {
 		System.out.println("=====Live Jobs list=====");
 
 		for (WebElement card : allJobList) {
-			String fullText = card.getText().split("\n")[0];  
+			String fullText = card.getText().split("\n")[0];
 			String firstLine = fullText.split("\n")[0].trim();
 
 			jobs.add(fullText);
@@ -137,7 +160,7 @@ public class POM_GhostDashboard {
 			Reporter.log(fullText, true);
 
 		}
-		return jobs;	
+		return jobs;
 
 	}
 
@@ -161,7 +184,7 @@ public class POM_GhostDashboard {
 		Assert.assertEquals(true, allJobsSltd, "==== All Jobs Option selected in jobstatus filter");
 
 	}
-	
+
 	public List<String> getAllJobList() {
 		waits.until(ExpectedConditions.numberOfElementsToBeMoreThan(getAllJ, 0));
 
@@ -169,11 +192,11 @@ public class POM_GhostDashboard {
 		List<WebElement> allJobListA = driver.findElements(getAllJ);
 
 		Reporter.log("AllJobs found: " +allJobListA.size(), true);
-		
+
 		System.out.println("=====All_Jobs list=====");
 
 		for (WebElement cardA : allJobListA) {
-			String fullTextA = cardA.getText().split("\n")[0];  
+			String fullTextA = cardA.getText().split("\n")[0];
 			String firstLineA = fullTextA.split("\n")[0].trim();
 
 			jobsA.add(fullTextA);
@@ -181,12 +204,12 @@ public class POM_GhostDashboard {
 			Reporter.log(fullTextA, true);
 
 		}
-		return jobsA;	
+		return jobsA;
 
 	}
 
 	public void selectClosedJob() {
-		
+
 		WebElement firstOldC = driver.findElements(slJbAll).get(0);   // used to detect the list refresh
 
 		openJobStatus();
@@ -205,7 +228,7 @@ public class POM_GhostDashboard {
 //		Assert.assertEquals(true, closeJobsSltd, "==== Closed_Jobs Option selected in jobstatus filter");
 
 	}
-	
+
 	public List<String> getClosedJobList() {
 		waits.until(ExpectedConditions.numberOfElementsToBeMoreThan(getAllJ, 0));
 
@@ -213,11 +236,11 @@ public class POM_GhostDashboard {
 		List<WebElement> allJobListC = driver.findElements(getAllJ);
 
 		Reporter.log("CloseJobs found: " +allJobListC.size(), true);
-		
+
 		System.out.println("=====ClosedJobs list=====");
 
 		for (WebElement cardC : allJobListC) {
-			String fullTextC = cardC.getText().split("\n")[0];  
+			String fullTextC = cardC.getText().split("\n")[0];
 			String firstLineC = fullTextC.split("\n")[0].trim();
 
 			jobsC.add(fullTextC);
@@ -225,8 +248,95 @@ public class POM_GhostDashboard {
 			Reporter.log(fullTextC, true);
 
 		}
-		return jobsC;	
+		return jobsC;
 
-	} 
+	}
 
+public void selectDrafJob() {
+
+		WebElement firstOldD = driver.findElements(slJbAll).get(0);   // used to detect the list refresh
+
+		openJobStatus();
+		System.out.println("DROPDOWN TEXT: " + driver.findElement(jobStatusDrop).getText().replace("\n", " | "));
+
+		waits.until(ExpectedConditions.elementToBeClickable(selectDraftJ)).click();
+
+//		Boolean closeJobsSltd = waits.until(ExpectedConditions.textToBe(jobStatusSelected, "Closed Jobs"));
+
+		try {
+			new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.stalenessOf(firstOldD));
+		} catch (Exception e) { }
+
+		waits.until(ExpectedConditions.numberOfElementsToBeMoreThan(slJbAll, 0));
+
+//		Assert.assertEquals(true, closeJobsSltd, "==== Closed_Jobs Option selected in jobstatus filter");
+
+	}
+
+	public List<String> getDraftJobList() {
+		waits.until(ExpectedConditions.numberOfElementsToBeMoreThan(getAllJ, 0));
+
+		List<String> jobsD = new ArrayList<>();
+		List<WebElement> allJobListD = driver.findElements(getAllJ);
+
+		Reporter.log("Draft_Jobs found: " +allJobListD.size(), true);
+
+		System.out.println("=====Draft Jobs list=====");
+
+		for (WebElement cardD : allJobListD) {
+			String fullTextD = cardD.getText().split("\n")[0];
+			String firstLineD = fullTextD.split("\n")[0].trim();
+
+			jobsD.add(fullTextD);
+
+			Reporter.log(fullTextD, true);
+
+		}
+		return jobsD;
+
+	}
+
+public void selectTemplateJob() {
+
+		WebElement firstOldT = driver.findElements(slJbAll).get(0);   // used to detect the list refresh
+
+		openJobStatus();
+		System.out.println("DROPDOWN TEXT: " + driver.findElement(jobStatusDrop).getText().replace("\n", " | "));
+
+		waits.until(ExpectedConditions.elementToBeClickable(selectTemplateJ)).click();
+
+//		Boolean closeJobsSltd = waits.until(ExpectedConditions.textToBe(jobStatusSelected, "Closed Jobs"));
+
+		try {
+			new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.stalenessOf(firstOldT));
+		} catch (Exception e) { }
+
+		waits.until(ExpectedConditions.numberOfElementsToBeMoreThan(slJbAll, 0));
+
+//		Assert.assertEquals(true, closeJobsSltd, "==== Closed_Jobs Option selected in jobstatus filter");
+
+	}
+
+	public List<String> getTemplateJobList() {
+		waits.until(ExpectedConditions.numberOfElementsToBeMoreThan(getAllJ, 0));
+
+		List<String> jobsT = new ArrayList<>();
+		List<WebElement> allJobListT = driver.findElements(getAllJ);
+
+		Reporter.log("Draft_Jobs found: " +allJobListT.size(), true);
+
+		System.out.println("=====Draft Jobs list=====");
+
+		for (WebElement cardT : allJobListT) {
+			String fullTextT = cardT.getText().split("\n")[0];
+			String firstLineT = fullTextT.split("\n")[0].trim();
+
+			jobsT.add(fullTextT);
+
+			Reporter.log(fullTextT, true);
+
+		}
+		return jobsT;
+
+	}
 }
